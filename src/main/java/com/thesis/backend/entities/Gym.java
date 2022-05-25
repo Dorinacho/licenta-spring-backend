@@ -25,9 +25,15 @@ public class Gym {
 
     @JsonManagedReference
     @JsonIgnore
-    @OneToMany(targetEntity = Employee.class, cascade = CascadeType.ALL,
+    @OneToMany(targetEntity = Employee.class, cascade = CascadeType.MERGE,
             orphanRemoval = true, mappedBy = "gym")
     private List<Employee> employees = new ArrayList<>();
+
+    @JsonManagedReference
+    @JsonIgnore
+    @OneToMany(targetEntity = Trainer.class, cascade = CascadeType.MERGE,
+            orphanRemoval = true, mappedBy = "gym")
+    private List<Trainer> trainers = new ArrayList<>();
 
     @Column
     private String name;
@@ -52,6 +58,14 @@ public class Gym {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public List<Trainer> getTrainers() {
+        return trainers;
+    }
+
+    public void setTrainers(List<Trainer> trainers) {
+        this.trainers = trainers;
     }
 
     public String getName() {

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,15 +19,21 @@ public class Employee {
     @Column(name = "employee_id")
     private int employeeId;
 
-//    @JsonBackReference
+    //    @JsonBackReference
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "gymId")
     @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(targetEntity = Gym.class, cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Gym.class)
     @JoinColumn(name = "fk_gym_id")
     private Gym gym;
 
-//    @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @JsonIgnore
+    @OneToMany(targetEntity = TimeLog.class, cascade = CascadeType.MERGE,
+            orphanRemoval = true, mappedBy = "employee")
+    private List<TimeLog> timeLogs = new ArrayList<>();
+
+    //    @OneToOne(cascade = CascadeType.ALL)
     @Column(name = "fk_user_id")
     private int userId;
 
@@ -58,9 +66,18 @@ public class Employee {
         this.gym = gym;
     }
 
+    public List<TimeLog> getTimeLogs() {
+        return timeLogs;
+    }
+
+    public void setTimeLogs(List<TimeLog> timeLogs) {
+        this.timeLogs = timeLogs;
+    }
+
     public int getUserId() {
         return userId;
     }
+
 
     public void setUserId(int userId) {
         this.userId = userId;

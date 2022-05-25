@@ -1,6 +1,6 @@
 package com.thesis.backend.controllers;
 
-import com.thesis.backend.entities.ERole;
+import com.thesis.backend.entities.enums.ERole;
 import com.thesis.backend.entities.Role;
 import com.thesis.backend.entities.User;
 import com.thesis.backend.payload.request.LoginRequest;
@@ -99,10 +99,16 @@ public class AuthController {
                         roles.add(trainerRole);
 
                         break;
-                    default:
+                    case "employee":
                         Role employeeRole = roleRepository.findByName(ERole.ROLE_EMPLOYEE)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(employeeRole);
+
+                        break;
+//                    default:
+//                        Role defaultRole = roleRepository.findByName(ERole.ROLE_EMPLOYEE)
+//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//                        roles.add(employeeRole);
                 }
             });
         }

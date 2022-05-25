@@ -1,13 +1,9 @@
 package com.thesis.backend.controllers;
 
 import com.thesis.backend.entities.Employee;
-import com.thesis.backend.entities.Gym;
-import com.thesis.backend.entities.User;
 import com.thesis.backend.payload.response.MessageResponse;
 import com.thesis.backend.repository.EmployeesRepository;
-import com.thesis.backend.repository.GymRepository;
 import com.thesis.backend.repository.UserRepository;
-import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +22,6 @@ public class EmployeeController {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    GymRepository gymRepository;
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -57,6 +50,7 @@ public class EmployeeController {
         employee.setFirstName(employeeDetails.getFirstName());
         employee.setPhone(employeeDetails.getPhone());
         employee.setGym(employeeDetails.getGym());
+        employee.setUserId(employeeDetails.getUserId());
         employeesRepository.save(employee);
         return ResponseEntity.ok(new MessageResponse("Employee edited successfully!"));
     }
@@ -66,15 +60,6 @@ public class EmployeeController {
     public ResponseEntity<?> addEmployee(@RequestBody Employee employee) {
         String username = employee.getFirstName() + "." + employee.getLastName();
         int userId = userRepository.findByUsername(username).get().getId();
-
-//        Gym gym = gymRepository.findById(employee.getGym().getGymId())
-//                .orElseThrow(() -> new RuntimeException("Can't find gym with id -> " + employee.getGym().getGymId()));
-//        gym.getEmployees().add(employee);
-//        employeesRepository
-//                .save(new Employee(employee.getEmployeeId(), employee.getGym(), user.getId(), employee.getFirstName(), employee.getLastName(), employee.getPhone(), employee.getEmail()));
-//        gymRepository.save(gym);
-
-
         employee.setUserId(userId);
         employeesRepository.save(employee);
         return ResponseEntity.ok(new MessageResponse("Employee added successfully!"));
@@ -82,7 +67,7 @@ public class EmployeeController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> deleteEmployee(@PathVariable(value = "id") int id){
+    public ResponseEntity<?> deleteEmployee(@PathVariable(value = "id") int id) {
         employeesRepository.deleteById(id);
         return ResponseEntity.ok(new MessageResponse("Employee deleted successfully!"));
     }

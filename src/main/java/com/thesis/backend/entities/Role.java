@@ -1,5 +1,7 @@
 package com.thesis.backend.entities;
 
+import com.thesis.backend.entities.enums.ERole;
+
 import javax.persistence.*;
 
 @Entity

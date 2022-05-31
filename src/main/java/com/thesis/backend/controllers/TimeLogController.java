@@ -29,19 +29,19 @@ public class TimeLogController {
     UserRepository userRepository;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_EMPLOYEE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<TimeLog> getAllTimeLogs() {
         return timeLogsRepository.findAll();
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_EMPLOYEE')")
-    public List<TimeLog> getTimeLogById(@PathVariable(value = "id") int id) {
+    public List<TimeLog> getTimeLogById(@PathVariable(value = "id") int userId) {
         List<TimeLog> allTimeLogs = timeLogsRepository.findAll();
         List<TimeLog> timeLogs = new ArrayList<>();
         for (Employee employee :
                 employeesRepository.findAll()) {
-            if (employee.getUserId() == id) {
+            if (employee.getUserId() == userId) {
                 for (TimeLog timelog :
                         allTimeLogs) {
                     if (timelog.getEmployee().getEmployeeId() == employee.getEmployeeId()) {

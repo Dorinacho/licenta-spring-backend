@@ -2,6 +2,7 @@ package com.thesis.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -33,14 +34,28 @@ public class Leave {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Column(name = "leave_type")
-    private String leaveType;
+//    @Column(name = "leave_type")
+//    private String leaveType;
 
     @Column(name = "reason")
     private String reason;
 
-    @Column(name = "status")
-    private String status;
+//    @Column(name = "status")
+//    private String status;
+
+    @JsonIdentityInfo(scope = LeaveStatus.class, generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "leaveStatusId")
+    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToOne(targetEntity = LeaveStatus.class)
+    @JoinColumn(name = "status")
+    private LeaveStatus status;
+
+    @JsonIdentityInfo(scope = LeaveType.class,generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "leaveTypeId")
+    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToOne(targetEntity = LeaveType.class)
+    @JoinColumn(name = "leave_type")
+    private LeaveType leaveType;
 
     public int getLeaveId() {
         return leaveId;
@@ -74,11 +89,11 @@ public class Leave {
         this.endDate = endDate;
     }
 
-    public String getLeaveType() {
+    public LeaveType getLeaveType() {
         return leaveType;
     }
 
-    public void setLeaveType(String leaveType) {
+    public void setLeaveType(LeaveType leaveType) {
         this.leaveType = leaveType;
     }
 
@@ -90,11 +105,11 @@ public class Leave {
         this.reason = reason;
     }
 
-    public String getStatus() {
+    public LeaveStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(LeaveStatus status) {
         this.status = status;
     }
 }

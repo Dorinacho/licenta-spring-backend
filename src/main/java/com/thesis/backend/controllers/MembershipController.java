@@ -1,8 +1,9 @@
 package com.thesis.backend.controllers;
 
+import com.thesis.backend.entities.Membership;
 import com.thesis.backend.entities.leave.LeaveType;
 import com.thesis.backend.payload.response.MessageResponse;
-import com.thesis.backend.repository.LeaveTypeRepository;
+import com.thesis.backend.repository.MembershipRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,22 +14,22 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/api/leaveType")
-public class LeaveTypeController {
+@RequestMapping("/api/membership")
+public class MembershipController {
 
     @Autowired
-    LeaveTypeRepository leaveTypeRepository;
+    MembershipRepository membershipRepository;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_ADMIN')")
-    public List<LeaveType> getLeaveTypes() {
-        return leaveTypeRepository.findAll();
+    @PreAuthorize("hasAnyRole( 'ROLE_ADMIN')")
+    public List<Membership> getMemberships() {
+        return membershipRepository.findAll();
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> addLeaveType(@RequestBody @NotNull LeaveType leaveType){
-        leaveTypeRepository.save(leaveType);
-        return ResponseEntity.ok(new MessageResponse("Leave type added successfully!"));
+    public ResponseEntity<?> addMembership(@RequestBody @NotNull Membership membership){
+        membershipRepository.save(membership);
+        return ResponseEntity.ok(new MessageResponse("Membership added successfully!"));
     }
 }

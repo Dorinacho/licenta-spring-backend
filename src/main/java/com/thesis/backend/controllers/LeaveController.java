@@ -1,12 +1,10 @@
 package com.thesis.backend.controllers;
 
-import com.thesis.backend.entities.Leave;
-import com.thesis.backend.entities.LeaveStatus;
-import com.thesis.backend.entities.LeaveType;
+import com.thesis.backend.entities.leave.Leave;
+import com.thesis.backend.entities.leave.LeaveStatus;
 import com.thesis.backend.payload.response.MessageResponse;
 import com.thesis.backend.repository.LeaveRepository;
 import com.thesis.backend.repository.LeaveStatusRepository;
-import com.thesis.backend.repository.LeaveTypeRepository;
 import com.thesis.backend.services.LeaveService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

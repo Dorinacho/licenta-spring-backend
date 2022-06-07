@@ -1,9 +1,9 @@
-package com.thesis.backend.entities;
+package com.thesis.backend.entities.leave;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.thesis.backend.entities.Employee;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

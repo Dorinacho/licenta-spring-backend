@@ -1,6 +1,6 @@
 package com.thesis.backend.repository;
 
-import com.thesis.backend.entities.LeaveStatus;
+import com.thesis.backend.entities.leave.LeaveStatus;
 import com.thesis.backend.entities.enums.ELeaveStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

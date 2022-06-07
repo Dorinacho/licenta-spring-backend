@@ -1,4 +1,4 @@
-package com.thesis.backend.entities;
+package com.thesis.backend.entities.leave;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

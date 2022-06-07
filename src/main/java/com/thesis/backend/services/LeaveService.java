@@ -2,9 +2,8 @@ package com.thesis.backend.services;
 
 
 import com.thesis.backend.entities.Employee;
-import com.thesis.backend.entities.Leave;
-import com.thesis.backend.entities.LeaveStatus;
-import com.thesis.backend.entities.TimeLog;
+import com.thesis.backend.entities.leave.Leave;
+import com.thesis.backend.entities.leave.LeaveStatus;
 import com.thesis.backend.entities.enums.ELeaveStatus;
 import com.thesis.backend.repository.EmployeesRepository;
 import com.thesis.backend.repository.LeaveRepository;

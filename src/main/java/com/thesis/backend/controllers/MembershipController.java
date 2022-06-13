@@ -1,6 +1,7 @@
 package com.thesis.backend.controllers;
 
 import com.thesis.backend.entities.Membership;
+import com.thesis.backend.entities.leave.Leave;
 import com.thesis.backend.entities.leave.LeaveType;
 import com.thesis.backend.payload.response.MessageResponse;
 import com.thesis.backend.repository.MembershipRepository;
@@ -12,24 +13,38 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = {"http://localhost:8081", "http://localhost:8082"})
 @RestController
-@RequestMapping("/api/membership")
+@RequestMapping("/api/memberships")
 public class MembershipController {
 
     @Autowired
     MembershipRepository membershipRepository;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole( 'ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyRole( 'ROLE_ADMIN')")
     public List<Membership> getMemberships() {
         return membershipRepository.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/addMembership")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> addMembership(@RequestBody @NotNull Membership membership){
         membershipRepository.save(membership);
         return ResponseEntity.ok(new MessageResponse("Membership added successfully!"));
+    }
+
+    @PutMapping("/updateMembership/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> updateMembership(@PathVariable(value = "id") int id ,@RequestBody @NotNull Membership membershipData){
+        Membership membership = membershipRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Membership not found with id " + id));
+        membership.setName(membershipData.getName());
+        membership.setDescription(membershipData.getDescription());
+        membership.setPrice(membershipData.getPrice());
+        membership.setDiscount(membershipData.getDiscount());
+//        membership.setClients(membershipData.getClients());
+        membershipRepository.save(membership);
+        return ResponseEntity.ok(new MessageResponse("Membership updated successfully!"));
     }
 }

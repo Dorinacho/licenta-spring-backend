@@ -1,20 +1,20 @@
 package com.thesis.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "trainers")
-public class Trainer{
+public class Trainer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,23 @@ public class Trainer{
     @JoinColumn(name = "fk_gym_id")
     private Gym gym;
 
+//    @JsonManagedReference
+//    @JsonIgnore
+//    @OneToMany(targetEntity = Client.class, cascade = CascadeType.MERGE,
+//            orphanRemoval = true, mappedBy = "membership")
+//    private List<Client> clients = new ArrayList<>();
+
+    @JsonManagedReference
+    @JsonIgnore
+    @OneToMany(targetEntity = Training.class, cascade = CascadeType.MERGE,
+            orphanRemoval = true, mappedBy = "principalTrainer")
+    private List<Training> principalTrainings = new ArrayList<>();
+
+    @JsonManagedReference
+    @JsonIgnore
+    @OneToMany(targetEntity = Training.class, cascade = CascadeType.MERGE,
+            orphanRemoval = true, mappedBy = "secondaryTrainer")
+    private List<Training> secondaryTrainings = new ArrayList<>();
 
     //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "user_id")

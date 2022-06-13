@@ -28,6 +28,22 @@ public class LeaveService {
     @Autowired
     LeaveStatusRepository leaveStatusRepository;
 
+//    public List<Leave> getAllRequests(){
+//        List<Leave> leaveList = new ArrayList<>();
+//        for (Leave leave:
+//             leaveRepository.findAll()) {
+//            for (Employee employee:
+//                 employeesRepository.findAll()) {
+//                if(leave.getEmployee().getEmployeeId() == employee.getEmployeeId()){
+//                    leave.setEmployee(employee);
+//                    leaveRepository.findAll();
+//                    leaveList.add(leave);
+//                }
+//            }
+//        }
+//        return leaveList;
+//    }
+
     public void sendLeaveRequest(Leave leave) {
         for (Employee employee :
                 employeesRepository.findAll()) {
@@ -60,15 +76,16 @@ public class LeaveService {
 
     public void updateLeave(int leaveId, Leave leaveDetails) {
         Leave leave = leaveRepository.findById(leaveId)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id " + leaveId));
+                .orElseThrow(() -> new RuntimeException("Leave not found with id " + leaveId));
         leave.setStartDate(leaveDetails.getStartDate());
         leave.setEndDate(leaveDetails.getEndDate());
         leave.setLeaveType(leaveDetails.getLeaveType());
         leave.setReason(leaveDetails.getReason());
         leave.setStatus(leaveDetails.getStatus());
+//        leave.setEmployee(leaveDetails.getEmployee());
         for (Employee employee :
                 employeesRepository.findAll()) {
-            if (employee.getUserId() == leave.getEmployee().getUserId()) {
+            if (employee.getEmployeeId() == leave.getEmployee().getEmployeeId()) {
                 leave.setEmployee(employee);
             }
         }

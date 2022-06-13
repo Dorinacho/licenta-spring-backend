@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = {"http://localhost:8081", "http://localhost:8082"})
 @RestController
 @RequestMapping("/api/trainers")
 public class TrainerController {
@@ -29,10 +29,16 @@ public class TrainerController {
     TrainerService trainerService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<Trainer> getAllTrainers() {
         return trainersRepository.findAll();
     }
+
+//    @GetMapping("/principals")
+////    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    public List<Trainer> getPrincipalTrainers() {
+//        return trainersRepository.findPrincipalTrainers();
+//    }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

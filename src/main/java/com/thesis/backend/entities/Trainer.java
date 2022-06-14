@@ -34,6 +34,10 @@ public class Trainer {
 //            orphanRemoval = true, mappedBy = "membership")
 //    private List<Client> clients = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
+
     @JsonManagedReference
     @JsonIgnore
     @OneToMany(targetEntity = Training.class, cascade = CascadeType.MERGE,
@@ -63,6 +67,25 @@ public class Trainer {
     @Column(name = "email")
     private String email;
 
+    @Column
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
     public int getTrainerId() {
         return trainerId;
     }
@@ -77,6 +100,22 @@ public class Trainer {
 
     public void setGym(Gym gym) {
         this.gym = gym;
+    }
+
+    public List<Training> getPrincipalTrainings() {
+        return principalTrainings;
+    }
+
+    public void setPrincipalTrainings(List<Training> principalTrainings) {
+        this.principalTrainings = principalTrainings;
+    }
+
+    public List<Training> getSecondaryTrainings() {
+        return secondaryTrainings;
+    }
+
+    public void setSecondaryTrainings(List<Training> secondaryTrainings) {
+        this.secondaryTrainings = secondaryTrainings;
     }
 
     public int getUserId() {

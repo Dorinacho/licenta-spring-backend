@@ -29,7 +29,7 @@ public class Membership {
     private String name;
 
     @Column
-    private int price;
+    private float price;
 
     @Column
     private String description;
@@ -69,11 +69,11 @@ public class Membership {
 //        this.clients = clients;
 //    }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

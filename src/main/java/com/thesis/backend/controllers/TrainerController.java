@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,11 +35,6 @@ public class TrainerController {
         return trainersRepository.findAll();
     }
 
-//    @GetMapping("/principals")
-////    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public List<Trainer> getPrincipalTrainers() {
-//        return trainersRepository.findPrincipalTrainers();
-//    }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -53,15 +49,6 @@ public class TrainerController {
     @PutMapping("/edit/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateTrainer(@PathVariable(value = "id") int trainerId, @RequestBody @NotNull Trainer trainerDetails) {
-
-//        Trainer trainer = trainersRepository.findById(trainerId)
-//                .orElseThrow(() -> new RuntimeException("Trainer not found with id " + trainerId));
-//        trainer.setEmail(trainerDetails.getEmail());
-//        trainer.setLastName(trainerDetails.getLastName());
-//        trainer.setFirstName(trainerDetails.getFirstName());
-//        trainer.setPhone(trainerDetails.getPhone());
-//        trainer.setGym(trainerDetails.getGym());
-//        trainersRepository.save(trainer);
         trainerService.updateTrainer(trainerId, trainerDetails);
         return ResponseEntity.ok(new MessageResponse("Trainer edited successfully!"));
     }

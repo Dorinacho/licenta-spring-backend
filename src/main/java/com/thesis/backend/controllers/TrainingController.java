@@ -42,4 +42,11 @@ public class TrainingController {
         trainingService.updateTraining(trainerId, training);
         return ResponseEntity.ok(new MessageResponse("Trainer edited successfully!"));
     }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteTraining(@PathVariable(value = "id") int id) {
+        trainingRepository.deleteById(id);
+        return ResponseEntity.ok(new MessageResponse("Training deleted successfully!"));
+    }
 }

@@ -1,8 +1,6 @@
 package com.thesis.backend.controllers;
 
 import com.thesis.backend.entities.Membership;
-import com.thesis.backend.entities.leave.Leave;
-import com.thesis.backend.entities.leave.LeaveType;
 import com.thesis.backend.payload.response.MessageResponse;
 import com.thesis.backend.repository.MembershipRepository;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +32,7 @@ public class MembershipController {
         return ResponseEntity.ok(new MessageResponse("Membership added successfully!"));
     }
 
-    @PutMapping("/updateMembership/{id}")
+    @PutMapping("/edit/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateMembership(@PathVariable(value = "id") int id ,@RequestBody @NotNull Membership membershipData){
         Membership membership = membershipRepository.findById(id)
@@ -46,5 +44,12 @@ public class MembershipController {
 //        membership.setClients(membershipData.getClients());
         membershipRepository.save(membership);
         return ResponseEntity.ok(new MessageResponse("Membership updated successfully!"));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteMembership(@PathVariable(value = "id") int id) {
+        membershipRepository.deleteById(id);
+        return ResponseEntity.ok(new MessageResponse("Membership deleted successfully!"));
     }
 }

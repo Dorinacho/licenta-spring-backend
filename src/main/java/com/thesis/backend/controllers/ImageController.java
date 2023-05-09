@@ -27,16 +27,22 @@ public class ImageController {
 
     @PostMapping("/upload")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> uploadFile(@RequestBody @NotNull MultipartFile file) {
+    public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file) {
         String message = "";
-        try {
-            imageService.store(file);
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+        if (file != null) {
+            try {
+                imageService.store(file);
+                message = "Uploaded the file successfully: " + file.getOriginalFilename();
+                return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+            } catch (Exception e) {
+                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+            }
+        }else {
+            message = "Image already uploaded";
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
-        } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
         }
+
     }
 
     @GetMapping("/files")

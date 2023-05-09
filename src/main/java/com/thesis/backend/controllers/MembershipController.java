@@ -41,7 +41,6 @@ public class MembershipController {
         membership.setDescription(membershipData.getDescription());
         membership.setPrice(membershipData.getPrice());
         membership.setDiscount(membershipData.getDiscount());
-//        membership.setClients(membershipData.getClients());
         membershipRepository.save(membership);
         return ResponseEntity.ok(new MessageResponse("Membership updated successfully!"));
     }

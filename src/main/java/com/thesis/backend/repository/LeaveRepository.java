@@ -12,6 +12,7 @@ import java.util.List;
 public interface LeaveRepository extends JpaRepository<Leave, Integer> {
 
     @Override
+    @Query(value = "SELECT * FROM leave ORDER BY start_date DESC;", nativeQuery = true)
     List<Leave> findAll();
 
     // 1 - PENDING

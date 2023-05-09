@@ -1,6 +1,7 @@
 package com.thesis.backend.entities;
 
 import com.fasterxml.jackson.annotation.*;
+import com.thesis.backend.entities.leave.Leave;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,6 @@ public class Employee {
     @Column(name = "employee_id")
     private int employeeId;
 
-    //    @JsonBackReference
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "gymId")
     @JsonIdentityReference(alwaysAsId = true)
@@ -33,7 +33,12 @@ public class Employee {
             orphanRemoval = true, mappedBy = "employee")
     private List<TimeLog> timeLogs = new ArrayList<>();
 
-    //    @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @JsonIgnore
+    @OneToMany(targetEntity = Leave.class, cascade = CascadeType.MERGE,
+            orphanRemoval = true, mappedBy = "employee")
+    private List<Leave> leaves = new ArrayList<>();
+
     @Column(name = "fk_user_id")
     private int userId;
 

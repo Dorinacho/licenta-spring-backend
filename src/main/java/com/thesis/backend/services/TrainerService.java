@@ -29,6 +29,8 @@ public class TrainerService {
         trainer.setFirstName(trainerDetails.getFirstName());
         trainer.setPhone(trainerDetails.getPhone());
         trainer.setGym(trainerDetails.getGym());
+
+        trainer.setImage(imageRepository.findImageByName(trainerDetails.getImage().getName()));
         trainer.setImage(trainerDetails.getImage());
         trainer.setDescription(trainerDetails.getDescription());
         trainersRepository.save(trainer);
